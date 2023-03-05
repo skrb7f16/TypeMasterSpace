@@ -11,7 +11,7 @@ public class ManagerScript : MonoBehaviour
     public GameObject enemy;
 
     public int currSize=0;
-    public bool stopWords = false;
+    static public bool stopWords = false;
     void Start()
     {
 
@@ -29,7 +29,7 @@ public class ManagerScript : MonoBehaviour
     void spawnEnemy(string s)
     {
         GameObject temp = Instantiate(enemy);
-        temp.transform.position = new Vector2(Random.Range(-8, 8), 3.8f);
+        temp.transform.position = new Vector2(Random.Range(-7, 8), 3.8f);
         temp.GetComponent<EnemyScript>().WordOfTheAsteroid.text = s;
         enemies[s] = temp;
         currSize++;
@@ -64,9 +64,9 @@ public class ManagerScript : MonoBehaviour
         while (!stopWords) {
             UnityWebRequest req = UnityWebRequest.Get("https://randomword.com/");
             yield return req.SendWebRequest();
-            print(req.downloadHandler.text.Split("random_word")[1]);
+
             string temp = req.downloadHandler.text.Split("random_word")[1].Split("</")[0].Split(">")[1];
-            print(temp);
+         
             spawnEnemy(temp);
             yield return new WaitForSeconds(5f);
         }

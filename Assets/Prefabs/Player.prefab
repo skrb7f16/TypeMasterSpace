@@ -125,3 +125,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laser: {fileID: 4431006929298856308, guid: 95d21f97c1364a04b913cc1dacea4eb7, type: 3}
+  score: {fileID: 0}

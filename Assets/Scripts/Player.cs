@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
     private string attackWord = "";
     public GameObject laser;
+    public TextMeshProUGUI score;
     void Start()
     {
         
@@ -45,9 +47,20 @@ public class Player : MonoBehaviour
         Transform t = enemy.transform;
        
         Vector2 dir = enemy.transform.position - temp.transform.position;
-        float angle = Mathf.Atan2(dir.x,dir.y+2f);
+        float angle = Mathf.Atan2(dir.x,dir.y+1f);
         temp.transform.Rotate(0,0,-1*angle*Mathf.Rad2Deg);
-        temp.GetComponent<Rigidbody2D>().AddForce(20 * dir);
+        temp.GetComponent<Rigidbody2D>().AddForce(30 * dir);
+        
+
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("enemy"))
+        {
+            collision.gameObject.GetComponent<EnemyScript>().asteroid.SetActive(false);
+            collision.gameObject.GetComponent<EnemyScript>().blast.SetActive(true);
+            Destroy(collision.gameObject, 1.5f);
+        }
+    }
 }

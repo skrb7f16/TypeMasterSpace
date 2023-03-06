@@ -9,10 +9,12 @@ public class EnemyScript : MonoBehaviour
     public bool isDestroyed = false;
     public TextMeshProUGUI WordOfTheAsteroid;
     public GameObject blast,asteroid;
+    public AudioSource source;
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        rigidBody.velocity = new Vector2(0, -0.1f);
+        source = GetComponent<AudioSource>();
+        rigidBody.velocity = new Vector2(0, DataForGame.EnemiesSpeed);
       
         
     }
@@ -37,6 +39,7 @@ public class EnemyScript : MonoBehaviour
             Destroy(collision.gameObject);
             asteroid.SetActive(false);
             blast.SetActive(true);
+            source.Play();
             Destroy(this.gameObject, 1.5f);
         }
     }

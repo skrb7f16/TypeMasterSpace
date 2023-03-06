@@ -8,9 +8,12 @@ public class Player : MonoBehaviour
     private string attackWord = "";
     public GameObject laser;
     public TextMeshProUGUI score;
+    public AudioClip laserSound,wrongSpelling;
+    public AudioSource source;
+  
     void Start()
     {
-        
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -18,8 +21,15 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            checkWord(attackWord);
-            attackWord = "";
+            if (ManagerScript.stopWords == true)
+            {
+                return;
+            }
+            else
+            {
+                checkWord(attackWord);
+                attackWord = "";
+            }
         }
         else if(Input.anyKeyDown)
         {
@@ -35,9 +45,11 @@ public class Player : MonoBehaviour
             if (w.Equals(s))
             {
                 FireLaser(s);
-
+                return;
             }
         }
+        source.clip = wrongSpelling;
+        source.Play();
     }
 
     public void FireLaser(string s)
@@ -49,8 +61,11 @@ public class Player : MonoBehaviour
         Vector2 dir = enemy.transform.position - temp.transform.position;
         float angle = Mathf.Atan2(dir.x,dir.y+1f);
         temp.transform.Rotate(0,0,-1*angle*Mathf.Rad2Deg);
-        temp.GetComponent<Rigidbody2D>().AddForce(30 * dir);
-        
+        temp.GetComponent<Rigidbody2D>().AddForce(DataForGame.LaserSpeedFactor * dir);
+        source.clip = laserSound;
+        source.Play();
+        DataForGame.score++;
+        score.text = DataForGame.score.ToString();
 
     }
 
@@ -61,6 +76,10 @@ public class Player : MonoBehaviour
             collision.gameObject.GetComponent<EnemyScript>().asteroid.SetActive(false);
             collision.gameObject.GetComponent<EnemyScript>().blast.SetActive(true);
             Destroy(collision.gameObject, 1.5f);
+            DataForGame.score = 0;
+            score.text = DataForGame.score.ToString();
+            ManagerScript.stopWords = true;
+            
         }
     }
 }

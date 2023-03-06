@@ -32,7 +32,7 @@ public class ManagerScript : MonoBehaviour
             DataForGame.increaseEnemiesSpeed();
             DataForGame.decreaseDelayTime();
             DataForGame.increaseLaserSpeedFactor();
-            DataForGame.limitScoreAfterChange *= 2;
+            DataForGame.limitScoreAfterChange += 2;
         }
         if (Input.GetKeyDown(KeyCode.Space) && stopWords)
         {

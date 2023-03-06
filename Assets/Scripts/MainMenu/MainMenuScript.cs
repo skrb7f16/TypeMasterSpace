@@ -28,6 +28,13 @@ public class MainMenuScript : MonoBehaviour
 
     public void showHelp()
     {
+        helpMenu.SetActive(true);
+        mainMenu.SetActive(false);
+    }
 
+    public void showMenu()
+    {
+        helpMenu.SetActive(false);
+        mainMenu.SetActive(true);
     }
 }
